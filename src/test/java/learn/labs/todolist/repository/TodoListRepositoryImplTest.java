@@ -39,6 +39,19 @@ public class TodoListRepositoryImplTest {
         System.out.println(todoListRepository.remove(4));
     }
 
+    @Test
+    void testGetAll() {
+        todoListRepository.add(new Todolist("Hadi"));
+        todoListRepository.add(new Todolist("Prasetyo"));
+        todoListRepository.add(new Todolist("Dika"));
+
+        Todolist[] todolists = todoListRepository.getAll();
+
+        for (var todoList : todolists){
+            System.out.println(todoList.getId() + " : " + todoList.getTodo());
+        }
+    }
+
     @AfterEach
     void tearDown() {
         dataSource.close();
