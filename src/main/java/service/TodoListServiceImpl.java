@@ -15,19 +15,9 @@ public class TodoListServiceImpl implements TodoListService{
     public void showTodoList() {
         Todolist[] model = todoListRepository.getAll();
 
-        if(model[0] == null){
-            System.out.println("TODO LIST Empty");
-        } else {
-            System.out.println("TODO LIST");
-        }
-
-        for (int i = 0; i < model.length; i++) {
-            var todolist = model[i];
-            var no = i+1;
-
-            if(todolist != null){
-                System.out.println(no + ". " + todolist.getTodo());
-            }
+        System.out.println("TODO LIST");
+        for(var todo : model) {
+            System.out.println(todo.getId() + " : " + todo.getTodo());
         }
     }
 
@@ -40,16 +30,17 @@ public class TodoListServiceImpl implements TodoListService{
 
     @Override
     public void removeTodoList(Integer number) {
-        Todolist[] model = todoListRepository.getAll();
+        Todolist[] todolist = todoListRepository.getAll();
+        boolean success = todoListRepository.remove(number);
 
-        if (model[number -1] ==  null) {
-            System.out.println("Gagal menghapus TODO dengan nomor: " + number);
-        } else {
-            var data = model[number -1].getTodo();
-            boolean success = todoListRepository.remove(number);
-
-            if(success){
-                System.out.println("Sukses menghapus TODO : " + data);
+        for(var todo : todolist) {
+            if(!success){
+                System.out.println("Gagal menghapus TODO dengan nomor : " + number);
+                break;
+            } else {
+                if(todo.getId().equals(number)){
+                    System.out.println("Sukses menghapus TODO " + todo.getTodo());
+                }
             }
         }
     }
